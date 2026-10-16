@@ -1,23 +1,23 @@
 # SimpleCalculator: Project Plan (v4, approved, Windows dev PC)
 
-Status: **approved** (2026-10-16). Implementation starts with milestone 1.
+Status: **milestone 1 done** (2026-10-16); milestone 2 (engine and tests) is next.
 
 ## 1. Decisions so far (2026-10-15)
 
-| Topic | Decision |
-|---|---|
-| Location | `C:\MyFiles\Projects\AgenticProjects\SimpleCalculator` on a Windows PC (v4) |
-| Docs access | Read on the phone via GitHub; no local mirror script |
-| Node | **Node 24 LTS**, pinned in `.nvmrc`; on the PC via nvm-windows (which ignores `.nvmrc`) |
-| Routing | Expo Router |
-| Input model | Android style: you type an expression, the result preview updates live, and `=` commits it |
-| Look and feel | Retro Casio desk or pocket calculator (see §3) |
-| Scope | Everything proposed earlier except scientific mode (see §2) |
-| Delivery | Expo Go during development. Later, an APK via EAS Build. Loop: change → Expo Go → APK |
-| Theme | Classic look only. No night variant, no light/dark switching |
-| History | Capped at the 100 most recent entries; the oldest are dropped first |
-| `%` | Casio semantics (see §2) |
-| Remote | GitHub: `contrazap/SimpleCalculator_ReactNative_Ai` (added 2026-10-16) |
+| Topic         | Decision                                                                                   |
+| ------------- | ------------------------------------------------------------------------------------------ |
+| Location      | `C:\MyFiles\Projects\AgenticProjects\SimpleCalculator` on a Windows PC (v4)                |
+| Docs access   | Read on the phone via GitHub; no local mirror script                                       |
+| Node          | **Node 24 LTS**, pinned in `.nvmrc`; on the PC via nvm-windows (which ignores `.nvmrc`)    |
+| Routing       | Expo Router                                                                                |
+| Input model   | Android style: you type an expression, the result preview updates live, and `=` commits it |
+| Look and feel | Retro Casio desk or pocket calculator (see §3)                                             |
+| Scope         | Everything proposed earlier except scientific mode (see §2)                                |
+| Delivery      | Expo Go during development. Later, an APK via EAS Build. Loop: change → Expo Go → APK      |
+| Theme         | Classic look only. No night variant, no light/dark switching                               |
+| History       | Capped at the 100 most recent entries; the oldest are dropped first                        |
+| `%`           | Casio semantics (see §2)                                                                   |
+| Remote        | GitHub: `contrazap/SimpleCalculator_ReactNative_Ai` (added 2026-10-16)                     |
 
 **Why Node 24:** It is the active LTS line, which Expo and React Native target and test against.
 The installed Node 26 is "Current" and only enters LTS later. Native and tooling dependencies can lag behind it.
@@ -29,6 +29,7 @@ Expo Go now connects over the local network (or USB with `adb reverse`), and the
 ## 2. Scope (v1)
 
 Core:
+
 - Digits, decimal point, `+ − × ÷`, `%`, `±`, parentheses `( )`
 - `%` follows Casio semantics, where the percentage is relative to the left operand:
   `200 + 10% = 220`, `200 − 10% = 180`, `200 × 10% = 20`, `200 ÷ 10% = 2000`, and a standalone `50% = 0.5`.
@@ -40,6 +41,7 @@ Core:
 - A display length limit, with exponent notation for very large or small results
 
 Extras:
+
 - **History**: past calculations, persisted with AsyncStorage (max 100 entries, oldest dropped first), shown on a second route.
   Tap an entry to reuse it.
 - **Haptics** on key press (`expo-haptics`), with a toggle in Settings
@@ -92,20 +94,20 @@ C:\MyFiles\Projects\AgenticProjects\SimpleCalculator\
 ├── .gitignore
 ├── .nvmrc                      # 24
 ├── app.json
-├── package.json
+├── package.json                # scripts and Jest config
 ├── tsconfig.json               # strict, "@/*" → "src/*"
 ├── eslint.config.js
 ├── .prettierrc
-├── jest.config.js              # jest-expo
+├── .prettierignore
 ├── assets/
 │   ├── fonts/                  # DSEG7, key-label font
 │   └── images/                 # icon, splash
-├── app/                        # Expo Router (thin)
-│   ├── _layout.tsx             # fonts, theme, stack
-│   ├── index.tsx               # Calculator
-│   ├── history.tsx
-│   └── settings.tsx
 └── src/
+    ├── app/                    # Expo Router routes (thin)
+    │   ├── _layout.tsx
+    │   ├── index.tsx           # Calculator
+    │   ├── history.tsx
+    │   └── settings.tsx
     ├── engine/                 # PURE TS, no react imports
     │   ├── tokenizer.ts
     │   ├── parser.ts
@@ -138,14 +140,14 @@ C:\MyFiles\Projects\AgenticProjects\SimpleCalculator\
 
 ## 6. Dependencies (expected, all installed via `npx expo install`)
 
-| Package | Why |
-|---|---|
-| `expo`, `expo-router` and its peer dependencies | Framework and routing |
-| `expo-font` | Bundles the LCD font |
-| `expo-haptics` | Key-press feedback |
-| `expo-clipboard` | Copying the result |
-| `@react-native-async-storage/async-storage` | History and settings persistence |
-| dev: `jest-expo`, `@testing-library/react-native`, `eslint-config-expo`, `prettier`, `typescript` | Quality checks |
+| Package                                                                                           | Why                              |
+| ------------------------------------------------------------------------------------------------- | -------------------------------- |
+| `expo`, `expo-router` and its peer dependencies                                                   | Framework and routing            |
+| `expo-font`                                                                                       | Bundles the LCD font             |
+| `expo-haptics`                                                                                    | Key-press feedback               |
+| `expo-clipboard`                                                                                  | Copying the result               |
+| `@react-native-async-storage/async-storage`                                                       | History and settings persistence |
+| dev: `jest-expo`, `@testing-library/react-native`, `eslint-config-expo`, `prettier`, `typescript` | Quality checks                   |
 
 All of these work in Expo Go, so no development build is needed until we build the APK.
 
@@ -163,7 +165,7 @@ None. All decisions are recorded in §1.
 
 ## 9. Milestones
 
-1. Environment: Node 24 via nvm-windows, `create-expo-app` (TypeScript and Router), tooling, git
+1. Environment: Node 24 via nvm-windows, `create-expo-app` (TypeScript and Router), tooling, git — **done 2026-10-16**
 2. Engine and tests
 3. Reducer, hooks and tests
 4. Casio UI: display, keypad, fonts and theme
