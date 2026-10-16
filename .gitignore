@@ -11,6 +11,8 @@ expo-env.d.ts
 # Generated native projects (managed workflow)
 /android
 /ios
+.kotlin/
+*.orig.*
 
 # Environment
 .env*.local
@@ -26,6 +28,7 @@ yarn-error.*
 # Signing material (never commit)
 *.jks
 *.keystore
+*.p8
 *.p12
 *.mobileprovision
 *.key
