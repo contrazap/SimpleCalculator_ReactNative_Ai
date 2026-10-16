@@ -1,23 +1,25 @@
 # AGENTS.md
 
 Guidance for AI coding agents (and humans) working in this repository.
-Scope and architecture decisions live in `PLAN.md`.
+Scope and architecture decisions live in `docs/PLAN.md`.
 
 ## Project
 SimpleCalculator: a React Native calculator app built with Expo (managed workflow) and TypeScript.
-It is developed and run on a single Android device: a PRoot Linux dev server, with Expo Go as the client.
+It is developed on a Windows PC and run on a single Android device, with Expo Go as the client.
 
 ## Commands
 | Task | Command |
 |---|---|
 | Install deps | `npm install` |
 | Add a dependency | `npx expo install <pkg>` (never plain `npm i` for RN/Expo libs) |
-| Start dev server | `npx expo start --localhost` → open `exp://127.0.0.1:8081` in Expo Go |
+| Start dev server | `npx expo start` → scan the QR code with Expo Go on the phone (same Wi-Fi) |
 | Type check | `npx tsc --noEmit` |
 | Lint | `npm run lint` |
 | Format | `npm run format` |
 | Tests | `npm test` |
 | All checks | `npm run check` (lint + typecheck + tests). **Must pass before finishing a task.** |
+
+No shared Wi-Fi? Use USB instead: `adb reverse tcp:8081 tcp:8081`, then `npx expo start --localhost`.
 
 ## Architecture rules
 - `src/engine/` is **pure TypeScript**. It must never import `react`, `react-native` or `expo-*`.
@@ -60,14 +62,17 @@ It is developed and run on a single Android device: a PRoot Linux dev server, wi
 - No network access, analytics, or tracking libraries.
 
 ## Environment caveats
-- The repo lives at `~/Projects/SimpleCalculator` in PRoot Ubuntu, **not** on `/sdcard`, because shared storage does not support symlinks.
-- After editing any `.md` file, run `scripts/sync-docs.sh`. It mirrors the docs to `/sdcard/Files/Projects/SimpleCalculator/` so the user can read them in Android apps.
-  Never edit the mirror; it gets overwritten.
-- Device resources are limited. Avoid running multiple Metro servers. Stop background processes when done.
-- Node: use Node 24 LTS, pinned in `.nvmrc` (`nvm use`). Do not use the system Node 26.
+- Development happens on a Windows PC at `C:\MyFiles\Projects\AgenticProjects\SimpleCalculator`.
+  The original plan targeted PRoot Ubuntu on the phone; this changed on 2026-10-16 (see `docs/PLAN.md` §1).
+- There is no `/sdcard` mirror anymore: docs are read on the phone via GitHub, so push doc changes to `origin`.
+- Keep one Metro server at a time. Stop it when done.
+- Node: use Node 24 LTS, pinned in `.nvmrc`. This PC uses nvm-windows, which ignores `.nvmrc`:
+  check `nvm list` and select the 24.x line with `nvm use <version>`.
+- PowerShell runs `npm`/`npx` normally (execution policy for the current user is `RemoteSigned`).
 
 ## Workflow
 - Do only what the task asks. Discuss scope changes before implementing them.
 - Run `npm run check` before declaring a task done, and report failures honestly.
 - Use Conventional Commits (`feat:`, `fix:`, `test:`, `refactor:`, `chore:`, `docs:`). Make small, focused commits.
-- Update `PLAN.md` or this file when an architectural decision changes.
+- Push to `origin` (GitHub) when a task's commits are done, so the docs and code are readable on the phone.
+- Update `docs/PLAN.md` or this file when an architectural decision changes.

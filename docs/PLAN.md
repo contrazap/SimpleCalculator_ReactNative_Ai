@@ -1,14 +1,14 @@
-# SimpleCalculator: Project Plan (v3, decisions final, pending approval to start)
+# SimpleCalculator: Project Plan (v4, approved, Windows dev PC)
 
-Status: **planning only**. No app code has been written yet.
+Status: **approved** (2026-10-16). Implementation starts with milestone 1.
 
 ## 1. Decisions so far (2026-10-15)
 
 | Topic | Decision |
 |---|---|
-| Location | `~/Projects/SimpleCalculator` (`/root/Projects/SimpleCalculator`) in PRoot Ubuntu |
-| Docs access | The `.md` files are mirrored to `/sdcard/Files/Projects/SimpleCalculator/` by `scripts/sync-docs.sh` |
-| Node | **Node 24 LTS**, installed via `nvm` and pinned in `.nvmrc` |
+| Location | `C:\MyFiles\Projects\AgenticProjects\SimpleCalculator` on a Windows PC (v4) |
+| Docs access | Read on the phone via GitHub; no local mirror script |
+| Node | **Node 24 LTS**, pinned in `.nvmrc`; on the PC via nvm-windows (which ignores `.nvmrc`) |
 | Routing | Expo Router |
 | Input model | Android style: you type an expression, the result preview updates live, and `=` commits it |
 | Look and feel | Retro Casio desk or pocket calculator (see §3) |
@@ -17,10 +17,14 @@ Status: **planning only**. No app code has been written yet.
 | Theme | Classic look only. No night variant, no light/dark switching |
 | History | Capped at the 100 most recent entries; the oldest are dropped first |
 | `%` | Casio semantics (see §2) |
-| Remote | Local git only for now. A GitHub remote will be added later if this workflow is reused for other projects |
+| Remote | GitHub: `contrazap/SimpleCalculator_ReactNative_Ai` (added 2026-10-16) |
 
 **Why Node 24:** It is the active LTS line, which Expo and React Native target and test against.
 The installed Node 26 is "Current" and only enters LTS later. Native and tooling dependencies can lag behind it.
+
+**v4 (2026-10-16):** Development moved from PRoot Linux on the phone to a Windows PC.
+The `/sdcard` docs mirror and the `--localhost` Metro loop were specific to that setup.
+Expo Go now connects over the local network (or USB with `adb reverse`), and the GitHub remote was added at the same time.
 
 ## 2. Scope (v1)
 
@@ -79,10 +83,13 @@ app/ (routes)  →  components (presentational)  →  hooks  →  state (reducer
 ## 5. Project structure
 
 ```
-~/Projects/SimpleCalculator/
+C:\MyFiles\Projects\AgenticProjects\SimpleCalculator\
 ├── AGENTS.md
-├── PLAN.md
 ├── README.md
+├── docs/
+│   └── PLAN.md
+├── .gitattributes              # LF everywhere
+├── .gitignore
 ├── .nvmrc                      # 24
 ├── app.json
 ├── package.json
@@ -90,8 +97,6 @@ app/ (routes)  →  components (presentational)  →  hooks  →  state (reducer
 ├── eslint.config.js
 ├── .prettierrc
 ├── jest.config.js              # jest-expo
-├── scripts/
-│   └── sync-docs.sh            # mirror *.md → /sdcard for reading
 ├── assets/
 │   ├── fonts/                  # DSEG7, key-label font
 │   └── images/                 # icon, splash
@@ -146,11 +151,9 @@ All of these work in Expo Go, so no development build is needed until we build t
 
 ## 7. Workflow and best practices
 
-- Use git from the first commit with Conventional Commits. The local repo is in the home folder.
-  There is no remote yet; GitHub comes later.
+- Use git from the first commit with Conventional Commits, and push to `origin` (GitHub).
 - Use test-driven development (TDD) for the engine and reducer. `npm run check` must pass before each commit.
-- After any docs change, run `scripts/sync-docs.sh` (later also wired into a git post-commit hook).
-- Dev loop: `npx expo start --localhost`, then open Expo Go at `exp://127.0.0.1:8081`.
+- Dev loop: `npx expo start`, then scan the QR code with Expo Go (same Wi-Fi; or USB with `adb reverse`).
 - Release loop (later): `eas build -p android --profile preview` produces an installable APK.
   This needs a free Expo account. The build runs in the cloud, so the phone doesn't have to compile Android natively.
 
@@ -158,9 +161,9 @@ All of these work in Expo Go, so no development build is needed until we build t
 
 None. All decisions are recorded in §1.
 
-## 9. Milestones (after approval)
+## 9. Milestones
 
-1. Environment: nvm and Node 24, `create-expo-app` (TypeScript and Router), tooling, git, a sync-docs hook
+1. Environment: Node 24 via nvm-windows, `create-expo-app` (TypeScript and Router), tooling, git
 2. Engine and tests
 3. Reducer, hooks and tests
 4. Casio UI: display, keypad, fonts and theme
