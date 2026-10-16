@@ -4,9 +4,12 @@
   "private": true,
   "main": "expo-router/entry",
   "dependencies": {
+    "@react-native-async-storage/async-storage": "2.2.0",
     "expo": "~58.0.11",
+    "expo-clipboard": "~58.0.3",
     "expo-constants": "~58.0.12",
     "expo-font": "~58.0.8",
+    "expo-haptics": "~58.0.6",
     "expo-linking": "~58.0.13",
     "expo-router": "~58.0.20",
     "expo-splash-screen": "~58.0.9",
@@ -43,6 +46,9 @@
   },
   "jest": {
     "preset": "jest-expo",
+    "setupFiles": [
+      "<rootDir>/jest.setup.js"
+    ],
     "moduleNameMapper": {
       "^@/assets/(.*)$": "<rootDir>/assets/$1",
       "^@/(.*)$": "<rootDir>/src/$1"
