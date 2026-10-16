@@ -75,6 +75,8 @@ No shared Wi-Fi? Use USB instead: `adb reverse tcp:8081 tcp:8081`, then `npx exp
   The original plan targeted PRoot Ubuntu on the phone; this changed on 2026-10-16 (see `docs/PLAN.md` §1).
 - There is no `/sdcard` mirror anymore: docs are read on the phone via GitHub, so push doc changes to `origin`.
 - Keep one Metro server at a time. Stop it when done.
+- `tsc` relies on Expo Router's generated route types in `.expo/types` (gitignored). If it rejects
+  route strings such as `'/history'`, run `npx expo start` once to regenerate them.
 - Node: use Node 24 LTS, pinned in `.nvmrc`. This PC uses nvm-windows, which ignores `.nvmrc`:
   check `nvm list` and select the 24.x line with `nvm use <version>`.
 - PowerShell runs `npm`/`npx` normally (execution policy for the current user is `RemoteSigned`).

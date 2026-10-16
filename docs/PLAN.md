@@ -1,6 +1,6 @@
 # SimpleCalculator: Project Plan (v4, approved, Windows dev PC)
 
-Status: **milestone 1 done** (2026-10-16); milestone 2 (engine and tests) is next.
+Status: **v1 feature-complete** (2026-10-16). Milestones 1–7 are done; the APK is built with EAS (`preview` profile).
 
 ## 1. Decisions so far (2026-10-15)
 
@@ -166,9 +166,23 @@ None. All decisions are recorded in §1.
 ## 9. Milestones
 
 1. Environment: Node 24 via nvm-windows, `create-expo-app` (TypeScript and Router), tooling, git — **done 2026-10-16**
-2. Engine and tests
-3. Reducer, hooks and tests
-4. Casio UI: display, keypad, fonts and theme
-5. History, settings, haptics and clipboard
-6. Landscape, accessibility and polish
-7. First APK with EAS Build
+2. Engine and tests — **done 2026-10-16**
+3. Reducer, hooks and tests — **done 2026-10-16**
+4. Casio UI: display, keypad, fonts and theme — **done 2026-10-16**
+5. History, settings, haptics and clipboard — **done 2026-10-16**
+6. Landscape, accessibility and polish — **done 2026-10-16**
+7. First APK with EAS Build — **done 2026-10-16**
+
+## 10. Implementation notes (v1)
+
+- **State lives above the router.** `CalculatorProvider`, `HistoryProvider` and `SettingsProvider` (in `src/hooks/`)
+  wrap the `Stack`, so the calculator keeps its expression while History or Settings is open,
+  and tapping a history entry loads it straight into the calculator.
+- **Display model.** `src/state/selectors.ts` derives the two LCD lines from reducer state:
+  the literal number while it is typed, a live preview once there is an operator,
+  and `E` for any error (`÷0`, overflow, malformed input). `⌫` after `E` returns to the expression.
+- **Numbers.** Intermediate results are rounded to 15 significant digits to hide float noise.
+  The LCD shows 12 digits (the leading `0` counts, like a Casio) and switches to `1.5E-7` style outside `1E-6 … 1E12`.
+- **Percent.** `a ± b%` means `a ± a·b/100`; elsewhere `b%` is `b/100` (so `200 × 10% = 20`, `200 ÷ 10% = 2000`).
+- **Sign toggle (`±`)** wraps the last number as `(−n`, Android style; open groups are closed automatically on `=`.
+- **Landscape** uses a 6-column layout of the same keys and hides the brand strip to save height.

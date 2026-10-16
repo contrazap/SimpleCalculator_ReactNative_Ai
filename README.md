@@ -5,9 +5,9 @@ with the look and feel of a retro calculator.
 
 ## Status
 
-Milestone 1 (environment and scaffold) is done: Expo SDK 58 + Expo Router, linting,
-formatting and Jest are configured, and `npm run check` passes. The calculator itself
-has not been built yet.
+v1 is feature-complete: expression entry with a live preview, precedence and parentheses,
+Casio-style `%`, a retro LCD look, history (last 100), haptics, copy-on-long-press and a
+landscape layout. See [`docs/PLAN.md`](docs/PLAN.md) for details.
 
 ## Documentation
 
@@ -62,9 +62,9 @@ Also available: `npm run lint`, `npm run typecheck`, `npm test`, `npm run format
 
 ## Build an APK and install it on the phone
 
-Not set up yet — this is milestone 7 in [`docs/PLAN.md`](docs/PLAN.md). The planned route
-is [EAS Build](https://docs.expo.dev/build/introduction/) (a cloud build; no Android SDK
-needed on this PC):
+Builds use [EAS Build](https://docs.expo.dev/build/introduction/) (a cloud build; no Android
+SDK needed on this PC). `eas.json` and the app id (`com.contrazap.simplecalc`) are already
+configured; bump `android.versionCode` in `app.json` before each release build.
 
 1. Create a free Expo account at https://expo.dev/signup.
 2. Log in: `npx eas-cli@latest login`
