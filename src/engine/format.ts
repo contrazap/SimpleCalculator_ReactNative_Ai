@@ -16,7 +16,8 @@ export function roundSignificant(value: number, digits: number): number {
  * zeros, and exponent notation ("1.5E-7") outside the plain range.
  */
 export function formatNumber(value: number): string {
-  if (!Number.isFinite(value)) throw new RangeError('Cannot format a non-finite number');
+  if (!Number.isFinite(value))
+    throw new RangeError('Cannot format a non-finite number');
 
   const rounded = roundSignificant(value, DISPLAY_DIGITS);
   if (rounded === 0) return '0';
