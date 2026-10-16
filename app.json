@@ -2,12 +2,15 @@
   "expo": {
     "name": "SimpleCalculator",
     "slug": "simplecalc",
+    "owner": "contrazap",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "simplecalc",
     "userInterfaceStyle": "light",
     "android": {
+      "package": "com.contrazap.simplecalc",
+      "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
