@@ -1,0 +1,3 @@
+# Normalize all text files to LF in the repository and on checkout.
+# Overrides core.autocrlf, so Windows checkouts get LF too.
+* text=auto eol=lf
